@@ -235,7 +235,7 @@
     </nav>
     <div class="nav-actions">
       <a class="btn btn-outline" href="#how-it-works">I'm a Tutor</a>
-      <a class="btn btn-primary" href="https://wa.me/6591234567?text=Hi%20Tutor%20Match,%20I%27d%20like%20to%20find%20a%20tutor." target="_blank" rel="noopener">Find a Tutor</a>
+      <a class="btn btn-primary" href="https://wa.me/6598816223?text=Hi%20Tutor%20Match,%20I%27d%20like%20to%20find%20a%20tutor." target="_blank" rel="noopener">Find a Tutor</a>
     </div>
   </div>
 </header>
@@ -261,7 +261,7 @@
           <a class="btn btn-outline" href="#how-it-works">How Tutor Match works</a>
         </div>
 
-        <form class="lead-form" action="mailto:hello@tutormatch.sg" method="post" enctype="text/plain">
+        <form class="lead-form" onsubmit="sendLeadToWhatsApp(event, this)">
           <div class="lead-form-grid">
             <select name="level" required><option value="">Student level</option><option>Primary / PSLE</option><option>Secondary / O-Level</option><option>JC / A-Level</option><option>IB / IGCSE</option><option>Adult / Other</option></select>
             <select name="subject" required><option value="">Subject</option><option>Maths</option><option>Science / Physics / Chemistry</option><option>English</option><option>Chinese / Higher Chinese</option><option>Coding / STEM</option><option>Other</option></select>
@@ -386,7 +386,7 @@
         <div class="benefit"><b>✓</b><span>Receive suitable tutor options to review.</span></div>
         <div class="benefit"><b>✓</b><span>Start with the tutor that feels like the right fit.</span></div>
       </div>
-      <form class="application" action="mailto:hello@tutormatch.sg" method="post" enctype="text/plain">
+      <form class="application" onsubmit="sendApplicationToWhatsApp(event, this)">
         <h3>Find a tutor</h3><div class="sub">Takes about 1 minute to submit.</div>
         <div class="application-grid">
           <div><label>Parent name</label><input name="Parent Name" required></div>
@@ -418,7 +418,7 @@
           <h2>Not sure which tutor is right?</h2>
           <p>Tell us the level and learning goal. We'll help you find a suitable Tutor Match — with no complicated searching.</p>
         </div>
-        <a class="btn btn-primary" href="mailto:hello@tutormatch.sg?subject=Tutor%20Match%20Enquiry">Get matched →</a>
+        <a class="btn btn-primary" href="https://wa.me/6598816223?text=Hi%20Tutor%20Match,%20I%27d%20like%20to%20get%20matched%20with%20a%20tutor." target="_blank" rel="noopener">Get matched →</a>
       </div>
     </div>
   </section>
@@ -461,6 +461,20 @@
     <div class="copyright">© 2026 Tutor Match. All rights reserved.</div>
   </div>
 </footer>
-<div class="sticky-cta"><a href="https://wa.me/6591234567?text=Hi%20Tutor%20Match,%20I%27d%20like%20to%20enquire%20about%20tuition." target="_blank" rel="noopener" aria-label="Chat with Tutor Match on WhatsApp"><span class="whatsapp-icon">◉</span> WhatsApp Us</a></div>
-</body>
+<div class="sticky-cta"><a href="https://wa.me/6598816223?text=Hi%20Tutor%20Match,%20I%27d%20like%20to%20enquire%20about%20tuition." target="_blank" rel="noopener" aria-label="Chat with Tutor Match on WhatsApp"><span class="whatsapp-icon">◉</span> WhatsApp Us</a></div>
+<script>
+function openWhatsApp(message){
+  window.open('https://wa.me/6598816223?text='+encodeURIComponent(message),'_blank','noopener');
+}
+function sendLeadToWhatsApp(event, form){
+  event.preventDefault();
+  const level=form.elements.level.value, subject=form.elements.subject.value, name=form.elements.name.value, phone=form.elements.phone.value;
+  openWhatsApp('Hi Tutor Match! I would like to find a tutor.\n\nParent: '+name+'\nWhatsApp: '+phone+'\nStudent level: '+level+'\nSubject: '+subject);
+}
+function sendApplicationToWhatsApp(event, form){
+  event.preventDefault();
+  const v=n=>form.elements[n]?.value||'';
+  openWhatsApp('Hi Tutor Match! I would like to enquire about a tutor.\n\nParent: '+v('Parent Name')+'\nWhatsApp: '+v('WhatsApp')+'\nLevel: '+v('Level')+'\nSubject: '+v('Subject')+'\nLesson: '+v('Format')+'\nBudget: '+v('Budget')+'\nRequirements: '+v('Requirements'));
+}
+</script></body>
 </html>
