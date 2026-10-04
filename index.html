@@ -172,6 +172,51 @@
       .cta .btn { margin-top:22px; }
       .footer-grid { grid-template-columns:1fr 1fr; }
     }
+  
+    .lead-form { background:#fff; border:1px solid var(--line); border-radius:18px; padding:18px; margin-top:22px; box-shadow:0 12px 35px rgba(25,39,63,.08); }
+    .lead-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .lead-form input,.lead-form select { width:100%; border:1px solid #dfe4ec; border-radius:10px; padding:12px; font:inherit; outline:none; background:#fff; }
+    .lead-form input:focus,.lead-form select:focus { border-color:var(--brand); box-shadow:0 0 0 3px rgba(255,107,53,.1); }
+    .lead-form .full { grid-column:1/-1; }
+    .form-note { color:var(--muted); font-size:11px; margin:8px 0 0; }
+    .stats { background:var(--navy); color:#fff; padding:28px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; text-align:center; }
+    .stat strong { display:block; font-size:30px; line-height:1.1; }
+    .stat span { color:#bdc8d8; font-size:12px; }
+    .tutor-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .tutor-card { border:1px solid var(--line); border-radius:18px; padding:20px; background:#fff; }
+    .tutor-head { display:flex; gap:13px; align-items:center; }
+    .tutor-photo { width:58px; height:58px; border-radius:16px; background:linear-gradient(135deg,#e8eef9,#f8ddd2); display:grid; place-items:center; font-size:20px; font-weight:900; }
+    .tutor-card h3 { margin:0; font-size:17px; }
+    .tutor-card .role { color:var(--muted); font-size:12px; }
+    .stars { color:#e39a00; font-size:13px; margin:14px 0 8px; }
+    .tutor-card p { color:var(--muted); font-size:13px; margin:0 0 15px; }
+    .chips { display:flex; flex-wrap:wrap; gap:6px; }
+    .chip { background:#f5f7fa; color:#526071; border-radius:999px; padding:5px 9px; font-size:11px; font-weight:700; }
+    .testimonial-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .quote { border:1px solid var(--line); border-radius:18px; padding:24px; background:#fff; }
+    .quote p { margin:0 0 18px; font-size:15px; line-height:1.65; }
+    .quote strong { font-size:13px; }
+    .quote small { display:block; color:var(--muted); margin-top:3px; }
+    .match-section { background:var(--cream); }
+    .match-box { display:grid; grid-template-columns:.8fr 1.2fr; gap:40px; align-items:start; }
+    .match-copy h2 { font-size:40px; line-height:1.08; letter-spacing:-1.5px; margin:0 0 15px; }
+    .match-copy p { color:var(--muted); }
+    .benefit { display:flex; gap:10px; margin:18px 0; font-size:14px; }
+    .benefit b { color:var(--green); }
+    .application { background:#fff; border:1px solid var(--line); border-radius:22px; padding:25px; box-shadow:0 18px 50px rgba(25,39,63,.09); }
+    .application h3 { margin:0 0 4px; font-size:22px; }
+    .application .sub { color:var(--muted); font-size:13px; margin-bottom:18px; }
+    .application-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .application label { display:block; font-size:12px; font-weight:800; margin-bottom:5px; }
+    .application input,.application select,.application textarea { width:100%; border:1px solid #dfe4ec; border-radius:10px; padding:11px; font:inherit; }
+    .application textarea { min-height:90px; resize:vertical; }
+    .application .wide { grid-column:1/-1; }
+    .sticky-cta { position:fixed; right:20px; bottom:20px; z-index:40; }
+    .sticky-cta a { display:flex; align-items:center; gap:8px; background:var(--green); color:#fff; padding:13px 17px; border-radius:999px; font-weight:800; box-shadow:0 12px 30px rgba(24,168,120,.3); }
+    @media(max-width:900px){ .tutor-grid,.testimonial-grid{grid-template-columns:1fr 1fr}.match-box{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:600px){ .lead-form-grid,.application-grid{grid-template-columns:1fr}.lead-form .full,.application .wide{grid-column:auto}.tutor-grid,.testimonial-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.match-copy h2{font-size:32px}.sticky-cta{right:12px;bottom:12px} }
+
   </style>
 </head>
 <body>
@@ -195,6 +240,15 @@
 </header>
 
 <main>
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat"><strong>1-to-1</strong><span>Personalised lessons</span></div>
+      <div class="stat"><strong>Home + Online</strong><span>Flexible learning options</span></div>
+      <div class="stat"><strong>Primary → JC</strong><span>Singapore school pathways</span></div>
+      <div class="stat"><strong>Human Match</strong><span>Support when you need it</span></div>
+    </div>
+  </section>
+
   <section class="hero" id="match">
     <div class="container hero-grid">
       <div>
@@ -205,6 +259,17 @@
           <a class="btn btn-primary" href="#programmes">Explore programmes →</a>
           <a class="btn btn-outline" href="#how-it-works">How Tutor Match works</a>
         </div>
+
+        <form class="lead-form" action="mailto:hello@tutormatch.sg" method="post" enctype="text/plain">
+          <div class="lead-form-grid">
+            <select name="level" required><option value="">Student level</option><option>Primary / PSLE</option><option>Secondary / O-Level</option><option>JC / A-Level</option><option>IB / IGCSE</option><option>Adult / Other</option></select>
+            <select name="subject" required><option value="">Subject</option><option>Maths</option><option>Science / Physics / Chemistry</option><option>English</option><option>Chinese / Higher Chinese</option><option>Coding / STEM</option><option>Other</option></select>
+            <input name="name" placeholder="Parent's name" required>
+            <input name="phone" placeholder="WhatsApp number" required>
+            <button class="btn btn-primary full" type="submit">Get matched with a tutor →</button>
+          </div>
+          <div class="form-note">We'll use your details only to contact you about suitable tutor options.</div>
+        </form>
         <div class="trust">
           <span>★ <strong>Trusted matching</strong></span>
           <span>✓ <strong>1-to-1 lessons</strong></span>
@@ -281,6 +346,18 @@
     </div>
   </section>
 
+
+  <section>
+    <div class="container">
+      <div class="section-head"><div><h2>Meet some of our tutors</h2><p>Parents can request tutors based on subject expertise, experience, teaching style and availability.</p></div><a class="section-link" href="#match-form">Request a match →</a></div>
+      <div class="tutor-grid">
+        <article class="tutor-card"><div class="tutor-head"><div class="tutor-photo">AM</div><div><h3>Amelia M.</h3><div class="role">Maths · Primary & PSLE</div></div></div><div class="stars">★★★★★ <span style="color:#64748b">4.9</span></div><p>Patient and structured teaching with a focus on confidence, heuristics and exam technique.</p><div class="chips"><span class="chip">8 yrs experience</span><span class="chip">Home / Online</span></div></article>
+        <article class="tutor-card"><div class="tutor-head"><div class="tutor-photo">JK</div><div><h3>Jason K.</h3><div class="role">Physics · Secondary & JC</div></div></div><div class="stars">★★★★★ <span style="color:#64748b">4.9</span></div><p>Concept-driven lessons that make difficult Physics topics clearer and easier to apply.</p><div class="chips"><span class="chip">6 yrs experience</span><span class="chip">O-Level / A-Level</span></div></article>
+        <article class="tutor-card"><div class="tutor-head"><div class="tutor-photo">SL</div><div><h3>Sarah L.</h3><div class="role">English & Chinese · Primary</div></div></div><div class="stars">★★★★★ <span style="color:#64748b">4.8</span></div><p>Bilingual tutor helping students improve comprehension, writing, oral communication and confidence.</p><div class="chips"><span class="chip">7 yrs experience</span><span class="chip">Bilingual</span></div></article>
+      </div>
+    </div>
+  </section>
+
   <section class="pathways">
     <div class="container">
       <div class="section-head">
@@ -294,6 +371,34 @@
         <div class="path"><strong>IB</strong><span>MYP · Diploma</span></div>
         <div class="path"><strong>Adult</strong><span>Skills · Languages</span></div>
       </div>
+    </div>
+  </section>
+
+  
+  <section class="match-section" id="match-form">
+    <div class="container match-box">
+      <div class="match-copy">
+        <div class="eyebrow"><span></span> Get your tutor match</div>
+        <h2>Tell us what your child needs. We'll help with the rest.</h2>
+        <p>Skip the endless search. Share a few details and our team can recommend suitable tutors for your requirements.</p>
+        <div class="benefit"><b>✓</b><span>Tell us your preferred subject, level and schedule.</span></div>
+        <div class="benefit"><b>✓</b><span>Receive suitable tutor options to review.</span></div>
+        <div class="benefit"><b>✓</b><span>Start with the tutor that feels like the right fit.</span></div>
+      </div>
+      <form class="application" action="mailto:hello@tutormatch.sg" method="post" enctype="text/plain">
+        <h3>Find a tutor</h3><div class="sub">Takes about 1 minute to submit.</div>
+        <div class="application-grid">
+          <div><label>Parent name</label><input name="Parent Name" required></div>
+          <div><label>WhatsApp</label><input name="WhatsApp" required></div>
+          <div><label>Student level</label><select name="Level" required><option value="">Select</option><option>Primary</option><option>Secondary</option><option>JC</option><option>IB / IGCSE</option><option>Adult</option></select></div>
+          <div><label>Subject</label><input name="Subject" placeholder="e.g. Maths" required></div>
+          <div><label>Preferred lesson</label><select name="Format"><option>Home tuition</option><option>Online</option><option>Either</option></select></div>
+          <div><label>Budget / hour</label><input name="Budget" placeholder="e.g. S$40–60"></div>
+          <div class="wide"><label>Anything else?</label><textarea name="Requirements" placeholder="School, target, availability, location, learning needs..."></textarea></div>
+          <button class="btn btn-primary wide" type="submit">Submit tutor request →</button>
+        </div>
+        <div class="form-note">By submitting, you agree that Tutor Match may contact you regarding your enquiry.</div>
+      </form>
     </div>
   </section>
 
@@ -313,6 +418,18 @@
           <p>Tell us the level and learning goal. We'll help you find a suitable Tutor Match — with no complicated searching.</p>
         </div>
         <a class="btn btn-primary" href="mailto:hello@tutormatch.sg?subject=Tutor%20Match%20Enquiry">Get matched →</a>
+      </div>
+    </div>
+  </section>
+
+
+  <section style="background:#f7f9fc">
+    <div class="container">
+      <div class="section-head"><div><h2>What parents look for</h2><p>A good tutor is more than a subject expert — the right fit matters.</p></div></div>
+      <div class="testimonial-grid">
+        <div class="quote"><p>“The matching process was much easier than contacting tutors one by one. We were able to explain exactly what our daughter needed.”</p><strong>Parent of a Primary 6 student</strong><small>PSLE Maths</small></div>
+        <div class="quote"><p>“We wanted someone who could teach Physics clearly and also work around our schedule. The shortlist made the decision much easier.”</p><strong>Parent of a Secondary 4 student</strong><small>O-Level Physics</small></div>
+        <div class="quote"><p>“Having a person understand our requirements first made the whole tuition search feel much more personal.”</p><strong>Parent of a JC student</strong><small>H2 Chemistry</small></div>
       </div>
     </div>
   </section>
@@ -343,5 +460,6 @@
     <div class="copyright">© 2026 Tutor Match. All rights reserved.</div>
   </div>
 </footer>
+<div class="sticky-cta"><a href="#match-form">💬 Find a Tutor</a></div>
 </body>
 </html>
