@@ -261,7 +261,7 @@
           <a class="btn btn-outline" href="#how-it-works">How Tutor Match works</a>
         </div>
 
-        <form class="lead-form" onsubmit="sendLeadToWhatsApp(event, this)">
+        <form class="lead-form" onsubmit="submitParentRequest(event, this)">
           <div class="lead-form-grid">
             <select name="level" required><option value="">Student level</option><option>Primary / PSLE</option><option>Secondary / O-Level</option><option>JC / A-Level</option><option>IB / IGCSE</option><option>Adult / Other</option></select>
             <select name="subject" required><option value="">Subject</option><option>Maths</option><option>Science / Physics / Chemistry</option><option>English</option><option>Chinese / Higher Chinese</option><option>Coding / STEM</option><option>Other</option></select>
@@ -269,7 +269,7 @@
             <input name="phone" placeholder="WhatsApp number" required>
             <button class="btn btn-primary full" type="submit">Get matched with a tutor →</button>
           </div>
-          <div class="form-note">We'll use your details only to contact you about suitable tutor options.</div>
+          <label class="full" style="font-size:11px;font-weight:500"><input type="checkbox" name="consent" required style="width:auto;margin-right:6px"> I agree Tutor Match may store and use these details to respond to my enquiry.</label><div class="form-note">We'll use your details only to contact you about suitable tutor options.</div>
         </form>
         <div class="trust">
           <span>★ <strong>Trusted matching</strong></span>
@@ -386,7 +386,7 @@
         <div class="benefit"><b>✓</b><span>Receive suitable tutor options to review.</span></div>
         <div class="benefit"><b>✓</b><span>Start with the tutor that feels like the right fit.</span></div>
       </div>
-      <form class="application" onsubmit="sendApplicationToWhatsApp(event, this)">
+      <form class="application" onsubmit="submitParentRequest(event, this)">
         <h3>Find a tutor</h3><div class="sub">Takes about 1 minute to submit.</div>
         <div class="application-grid">
           <div><label>Parent name</label><input name="Parent Name" required></div>
@@ -398,7 +398,7 @@
           <div class="wide"><label>Anything else?</label><textarea name="Requirements" placeholder="School, target, availability, location, learning needs..."></textarea></div>
           <button class="btn btn-primary wide" type="submit">Submit tutor request →</button>
         </div>
-        <div class="form-note">By submitting, you agree that Tutor Match may contact you regarding your enquiry.</div>
+        <label class="wide" style="font-size:11px;font-weight:500"><input type="checkbox" name="Consent" required style="width:auto;margin-right:6px"> I agree Tutor Match may store and use these details to respond to my enquiry.</label><div class="form-note">By submitting, you agree that Tutor Match may contact you regarding your enquiry.</div>
       </form>
     </div>
   </section>
@@ -477,19 +477,8 @@
   </div>
 </footer>
 <div class="sticky-cta"><a href="https://wa.me/6598816223?text=Hi%20Tutor%20Match,%20I%27d%20like%20to%20enquire%20about%20tuition." target="_blank" rel="noopener" aria-label="Chat with Tutor Match on WhatsApp"><span class="whatsapp-icon">◉</span> WhatsApp Us</a></div>
-<script>
-function openWhatsApp(message){
-  window.open('https://wa.me/6598816223?text='+encodeURIComponent(message),'_blank','noopener');
-}
-function sendLeadToWhatsApp(event, form){
-  event.preventDefault();
-  const level=form.elements.level.value, subject=form.elements.subject.value, name=form.elements.name.value, phone=form.elements.phone.value;
-  openWhatsApp('Hi Tutor Match! I would like to find a tutor.\n\nParent: '+name+'\nWhatsApp: '+phone+'\nStudent level: '+level+'\nSubject: '+subject);
-}
-function sendApplicationToWhatsApp(event, form){
-  event.preventDefault();
-  const v=n=>form.elements[n]?.value||'';
-  openWhatsApp('Hi Tutor Match! I would like to enquire about a tutor.\n\nParent: '+v('Parent Name')+'\nWhatsApp: '+v('WhatsApp')+'\nLevel: '+v('Level')+'\nSubject: '+v('Subject')+'\nLesson: '+v('Format')+'\nBudget: '+v('Budget')+'\nRequirements: '+v('Requirements'));
-}
+<script src="config.js"></script><script>
+function openWhatsApp(message){window.open('https://wa.me/6598816223?text='+encodeURIComponent(message),'_blank','noopener');}
+async function submitParentRequest(event,form){event.preventDefault();const v=n=>form.elements[n]?.value||'';const p={parent_name:v('name')||v('Parent Name'),whatsapp:v('phone')||v('WhatsApp'),student_level:v('level')||v('Level'),subject:v('subject')||v('Subject'),lesson_format:v('Format'),budget:v('Budget'),requirements:v('Requirements'),consent:Boolean(form.elements.consent?.checked||form.elements.Consent?.checked)};const c=window.TUTOR_MATCH_CONFIG&&TUTOR_MATCH_CONFIG.SUPABASE_URL&&!TUTOR_MATCH_CONFIG.SUPABASE_URL.includes('YOUR-PROJECT');if(c){try{const r=await fetch(TUTOR_MATCH_CONFIG.SUPABASE_URL+'/functions/v1/create-parent-request',{method:'POST',headers:{'Content-Type':'application/json','apikey':TUTOR_MATCH_CONFIG.SUPABASE_ANON_KEY},body:JSON.stringify(p)});const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||'save failed');location.href='thank-you.html?id='+encodeURIComponent(d.id);return;}catch(e){alert('Online save is unavailable right now. We will open WhatsApp instead.');}}openWhatsApp('Hi Tutor Match! I would like to find a tutor.\\n\\nParent: '+p.parent_name+'\\nWhatsApp: '+p.whatsapp+'\\nStudent level: '+p.student_level+'\\nSubject: '+p.subject+'\\nLesson: '+p.lesson_format+'\\nBudget: '+p.budget+'\\nRequirements: '+p.requirements);}
 </script></body>
 </html>
