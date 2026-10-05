@@ -337,12 +337,12 @@
         <span class="filter active">All</span><span class="filter">Primary</span><span class="filter">Secondary</span><span class="filter">JC</span><span class="filter">IB</span><span class="filter">Enrichment</span>
       </div>
       <div class="program-grid">
-        <article class="program"><div class="program-meta"><span class="tag">Academic</span><span>Primary · PSLE</span></div><h3>PSLE Maths Tuition</h3><p>Build confidence in problem solving, heuristics and exam technique with a tutor matched to your child's needs.</p><div class="program-bottom"><span class="price">From S$35/hr</span><span class="arrow">→</span></div></article>
-        <article class="program"><div class="program-meta"><span class="tag">Academic</span><span>Secondary · O-Level</span></div><h3>O-Level Physics</h3><p>Strengthen concepts, calculations and practical skills with focused one-to-one support.</p><div class="program-bottom"><span class="price">From S$40/hr</span><span class="arrow">→</span></div></article>
-        <article class="program"><div class="program-meta"><span class="tag">Academic</span><span>JC · A-Level</span></div><h3>H2 Chemistry</h3><p>Target difficult topics, structured answers and exam technique with an experienced JC tutor.</p><div class="program-bottom"><span class="price">From S$50/hr</span><span class="arrow">→</span></div></article>
-        <article class="program"><div class="program-meta"><span class="tag">Language</span><span>Primary · Secondary</span></div><h3>Chinese & Higher Chinese</h3><p>Oral, composition, comprehension and school syllabus support with bilingual tutors.</p><div class="program-bottom"><span class="price">From S$35/hr</span><span class="arrow">→</span></div></article>
-        <article class="program"><div class="program-meta"><span class="tag">Technology</span><span>Kids · Teens</span></div><h3>Coding & Robotics</h3><p>Learn Scratch, Python, robotics and project-based STEM skills at a comfortable pace.</p><div class="program-bottom"><span class="price">From S$40/hr</span><span class="arrow">→</span></div></article>
-        <article class="program"><div class="program-meta"><span class="tag">Enrichment</span><span>All ages</span></div><h3>Piano & Music Lessons</h3><p>Find a tutor for beginners, graded exams, performance preparation or music theory.</p><div class="program-bottom"><span class="price">From S$40/hr</span><span class="arrow">→</span></div></article>
+        <a class="program" href="#match-form" data-program="PSLE Maths Tuition" data-level="Primary" data-subject="Maths" data-budget="S$35–50/hr"><div class="program-meta"><span class="tag">Academic</span><span>Primary · PSLE</span></div><h3>PSLE Maths Tuition</h3><p>Build confidence in problem solving, heuristics and exam technique with a tutor matched to your child's needs.</p><div class="program-bottom"><span class="price">From S$35/hr</span><span class="arrow">View & match →</span></div></a>
+        <a class="program" href="#match-form" data-program="O-Level Physics" data-level="Secondary" data-subject="Physics" data-budget="S$40–60/hr"><div class="program-meta"><span class="tag">Academic</span><span>Secondary · O-Level</span></div><h3>O-Level Physics</h3><p>Strengthen concepts, calculations and practical skills with focused one-to-one support.</p><div class="program-bottom"><span class="price">From S$40/hr</span><span class="arrow">View & match →</span></div></a>
+        <a class="program" href="#match-form" data-program="H2 Chemistry" data-level="JC" data-subject="H2 Chemistry" data-budget="S$50–70/hr"><div class="program-meta"><span class="tag">Academic</span><span>JC · A-Level</span></div><h3>H2 Chemistry</h3><p>Target difficult topics, structured answers and exam technique with an experienced JC tutor.</p><div class="program-bottom"><span class="price">From S$50/hr</span><span class="arrow">View & match →</span></div></a>
+        <a class="program" href="#match-form" data-program="Chinese & Higher Chinese" data-level="Primary / Secondary" data-subject="Chinese / Higher Chinese" data-budget="S$35–50/hr"><div class="program-meta"><span class="tag">Language</span><span>Primary · Secondary</span></div><h3>Chinese & Higher Chinese</h3><p>Oral, composition, comprehension and school syllabus support with bilingual tutors.</p><div class="program-bottom"><span class="price">From S$35/hr</span><span class="arrow">View & match →</span></div></a>
+        <a class="program" href="#match-form" data-program="Coding & Robotics" data-level="Kids / Teens" data-subject="Coding / Robotics" data-budget="S$40–60/hr"><div class="program-meta"><span class="tag">Technology</span><span>Kids · Teens</span></div><h3>Coding & Robotics</h3><p>Learn Scratch, Python, robotics and project-based STEM skills at a comfortable pace.</p><div class="program-bottom"><span class="price">From S$40/hr</span><span class="arrow">View & match →</span></div></a>
+        <a class="program" href="#match-form" data-program="Piano & Music Lessons" data-level="Adult / Other" data-subject="Piano / Music" data-budget="S$40–60/hr"><div class="program-meta"><span class="tag">Enrichment</span><span>All ages</span></div><h3>Piano & Music Lessons</h3><p>Find a tutor for beginners, graded exams, performance preparation or music theory.</p><div class="program-bottom"><span class="price">From S$40/hr</span><span class="arrow">View & match →</span></div></a>
       </div>
     </div>
   </section>
@@ -479,6 +479,26 @@
 <div class="sticky-cta"><a href="https://wa.me/6598816223?text=Hi%20Tutor%20Match,%20I%27d%20like%20to%20enquire%20about%20tuition." target="_blank" rel="noopener" aria-label="Chat with SmartMatch on WhatsApp"><span class="whatsapp-icon">◉</span> WhatsApp Us</a></div>
 <script src="config.js"></script><script>
 function openWhatsApp(message){window.open('https://wa.me/6598816223?text='+encodeURIComponent(message),'_blank','noopener');}
+document.querySelectorAll('.program[data-program]').forEach(function(card){
+  card.addEventListener('click',function(){
+    var subject=this.dataset.subject||'';
+    var level=this.dataset.level||'';
+    var budget=this.dataset.budget||'';
+    var subjectInput=document.querySelector('#match-form input[name="Subject"]');
+    var levelSelect=document.querySelector('#match-form select[name="Level"]');
+    var budgetInput=document.querySelector('#match-form input[name="Budget"]');
+    if(subjectInput) subjectInput.value=subject;
+    if(budgetInput) budgetInput.value=budget;
+    if(levelSelect){
+      var option=[...levelSelect.options].find(function(o){return o.textContent.toLowerCase()===level.toLowerCase()});
+      if(option) levelSelect.value=option.value;
+      else if(level.includes('Primary')) levelSelect.value='Primary';
+      else if(level.includes('Secondary')) levelSelect.value='Secondary';
+      else if(level.includes('JC')) levelSelect.value='JC';
+      else if(level.includes('Adult')) levelSelect.value='Adult';
+    }
+  });
+});
 async function submitParentRequest(event,form){event.preventDefault();const v=n=>form.elements[n]?.value||'';const p={parent_name:v('name')||v('Parent Name'),whatsapp:v('phone')||v('WhatsApp'),student_level:v('level')||v('Level'),subject:v('subject')||v('Subject'),lesson_format:v('Format'),budget:v('Budget'),requirements:v('Requirements'),consent:Boolean(form.elements.consent?.checked||form.elements.Consent?.checked)};const c=window.TUTOR_MATCH_CONFIG&&TUTOR_MATCH_CONFIG.SUPABASE_URL&&!TUTOR_MATCH_CONFIG.SUPABASE_URL.includes('YOUR-PROJECT');if(c){try{const r=await fetch(TUTOR_MATCH_CONFIG.SUPABASE_URL+'/functions/v1/create-parent-request',{method:'POST',headers:{'Content-Type':'application/json','apikey':TUTOR_MATCH_CONFIG.SUPABASE_ANON_KEY},body:JSON.stringify(p)});const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||'save failed');location.href='thank-you.html?id='+encodeURIComponent(d.id);return;}catch(e){alert('Online save is unavailable right now. We will open WhatsApp instead.');}}openWhatsApp('Hi SmartMatch! I would like to find a tutor.\\n\\nParent: '+p.parent_name+'\\nWhatsApp: '+p.whatsapp+'\\nStudent level: '+p.student_level+'\\nSubject: '+p.subject+'\\nLesson: '+p.lesson_format+'\\nBudget: '+p.budget+'\\nRequirements: '+p.requirements);}
 </script></body>
 </html>
