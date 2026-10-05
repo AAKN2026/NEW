@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SmartMatch Tutor Response</title>
+<style>
+body{margin:0;background:#f5f7fb;color:#172033;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:620px;margin:0 auto;padding:28px 18px 48px}
+.brand{font-weight:900;font-size:28px;letter-spacing:-.5px;margin:8px 0 28px}
+.brand span{color:#ff6b35}
+.card{background:#fff;border:1px solid #e6eaf0;border-radius:20px;padding:28px;box-shadow:0 12px 30px rgba(20,30,50,.06)}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff2ec;color:#d84e1c;font-weight:800;font-size:12px}
+h1{font-size:30px;line-height:1.15;margin:14px 0 10px}
+p{color:#667085;line-height:1.6}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+button{border:0;border-radius:12px;padding:15px 12px;font-size:16px;font-weight:800;cursor:pointer}
+.yes{background:#0f9d68;color:#fff}.no{background:#eef1f5;color:#263244}
+button:disabled{opacity:.55;cursor:not-allowed}
+#result{margin-top:18px;padding:14px;border-radius:12px;display:none}
+.ok{background:#eaf8f2;color:#08764e}.err{background:#fff0f0;color:#b42318}
+.small{font-size:13px;color:#8a94a6;margin-top:20px}
+@media(max-width:520px){.actions{grid-template-columns:1fr}h1{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span>Smart</span>Match</div>
+  <div class="card">
+    <span class="badge">Tutor enquiry</span>
+    <h1>Can you take this student?</h1>
+    <p>Please choose one option below. Your response will be sent directly to the SmartMatch matching system.</p>
+    <div class="actions">
+      <button class="yes" id="accept" onclick="respond('accepted')">✓ I’m Available</button>
+      <button class="no" id="decline" onclick="respond('declined')">✕ I’m Not Available</button>
+    </div>
+    <div id="result"></div>
+    <div class="small">This secure response link is for the tutor enquiry sent by SmartMatch.</div>
+  </div>
+</div>
+<script src="config.js"></script>
+<script>
+const token=new URLSearchParams(location.search).get("token");
+const result=document.getElementById("result");
+function show(message,ok){result.style.display="block";result.className=ok?"ok":"err";result.textContent=message}
+async function respond(status){
+  if(!token){show("This response link is missing or invalid.",false);return}
+  document.querySelectorAll("button").forEach(b=>b.disabled=true);
+  try{
+    const res=await fetch(TUTOR_MATCH_CONFIG.SUPABASE_URL+"/functions/v1/tutor-response",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":TUTOR_MATCH_CONFIG.SUPABASE_ANON_KEY},
+      body:JSON.stringify({token,status})
+    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||!data.ok) throw new Error(data.error||"Unable to record response");
+    show(data.alreadyRecorded ? "Your previous response has already been recorded." : (status==="accepted" ? "Thank you — you are marked as available. SmartMatch will proceed with the trial arrangement." : "Thank you — your response has been recorded."),true);
+  }catch(e){
+    document.querySelectorAll("button").forEach(b=>b.disabled=false);
+    show(e.message||"Unable to record response. Please contact SmartMatch.",false);
+  }
+}
+</script>
+</body>
+</html>
