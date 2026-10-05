@@ -18,5 +18,5 @@ Deno.serve(async req=>{
   const {data,error}=await db.rpc("generate_matches",{p_request_id:request_id});
   if(error) throw error;
   return new Response(JSON.stringify({ok:true,matches:data||[]}),{headers:cors});
- }catch(e){return new Response(JSON.stringify({ok:false,error:String(e?.message||e)}),{status:400,headers:cors})}
+ }catch(e){console.error("generate-matches error",e);return new Response(JSON.stringify({ok:false,error:"Match Engine failed. Please retry or check Admin logs."}),{status:500,headers:cors})}
 });
