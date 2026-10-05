@@ -350,12 +350,8 @@
 
   <section>
     <div class="container">
-      <div class="section-head"><div><h2>Meet some of our tutors</h2><p>Parents can request tutors based on subject expertise, experience, teaching style and availability.</p></div><a class="section-link" href="#match-form">Request a match →</a></div>
-      <div class="tutor-grid">
-        <a class="tutor-card" href="tutor-profile.html?name=Amelia%20M.&initials=AM&subject=Maths&level=Primary%20%2F%20PSLE"><div class="tutor-head"><div class="tutor-photo">AM</div><div><h3>Amelia M.</h3><div class="role">Maths · Primary & PSLE</div></div></div><div class="stars">★★★★★ <span style="color:#64748b">4.9</span></div><p>Patient and structured teaching with a focus on confidence, heuristics and exam technique.</p><div class="chips"><span class="chip">8 yrs experience</span><span class="chip">Home / Online</span></div></article>
-        <a class="tutor-card" href="tutor-profile.html?name=Jason%20K.&initials=JK&subject=Physics&level=Secondary%20%2F%20O-Level"><div class="tutor-head"><div class="tutor-photo">JK</div><div><h3>Jason K.</h3><div class="role">Physics · Secondary & JC</div></div></div><div class="stars">★★★★★ <span style="color:#64748b">4.9</span></div><p>Concept-driven lessons that make difficult Physics topics clearer and easier to apply.</p><div class="chips"><span class="chip">6 yrs experience</span><span class="chip">O-Level / A-Level</span></div></article>
-        <a class="tutor-card" href="tutor-profile.html?name=Sarah%20L.&initials=SL&subject=English%20%26%20Chinese&level=Primary%20%2F%20PSLE"><div class="tutor-head"><div class="tutor-photo">SL</div><div><h3>Sarah L.</h3><div class="role">English & Chinese · Primary</div></div></div><div class="stars">★★★★★ <span style="color:#64748b">4.8</span></div><p>Bilingual tutor helping students improve comprehension, writing, oral communication and confidence.</p><div class="chips"><span class="chip">7 yrs experience</span><span class="chip">Bilingual</span></div></a>
-      </div>
+      <div class="section-head"><div><h2>Meet our live tutors</h2><p>Browse tutors currently listed as verified or active in SmartMatch.</p></div><a class="section-link" href="tutors.html">View all tutors →</a></div>
+      <div class="tutor-grid" id="homeTutorGrid"><div class="tutor-card"><p>Loading live tutors…</p></div></div>
     </div>
   </section>
 
@@ -478,6 +474,9 @@
 </footer>
 <div class="sticky-cta"><a href="https://wa.me/6598816223?text=Hi%20Tutor%20Match,%20I%27d%20like%20to%20enquire%20about%20tuition." target="_blank" rel="noopener" aria-label="Chat with SmartMatch on WhatsApp"><span class="whatsapp-icon">◉</span> WhatsApp Us</a></div>
 <script src="config.js"></script><script>
+async function loadHomeTutors(){const grid=document.getElementById('homeTutorGrid');if(!grid)return;try{const r=await fetch(TUTOR_MATCH_CONFIG.SUPABASE_URL+'/rest/v1/public_tutor_profiles?select=id,full_name,subjects,levels,experience_years,lesson_formats,profile&limit=3',{headers:{apikey:TUTOR_MATCH_CONFIG.SUPABASE_ANON_KEY}});if(!r.ok)throw 0;const ts=await r.json();if(!ts.length){grid.innerHTML='<div class="tutor-card"><p>No public tutor profiles are available yet. <a href="#match-form" style="color:var(--brand);font-weight:800">Request a personalised match →</a></p></div>';return}grid.innerHTML=ts.map(t=>{const initials=(t.full_name||'Tutor').split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase();return '<a class="tutor-card" href="tutor-profile.html?id='+encodeURIComponent(t.id)+'"><div class="tutor-head"><div class="tutor-photo">'+initials+'</div><div><h3>'+t.full_name+'</h3><div class="role">'+(t.subjects||[]).slice(0,2).join(' · ')+'</div></div></div><p>'+((t.profile||'SmartMatch tutor profile.').slice(0,150))+'</p><div class="chips"><span class="chip">'+((t.experience_years||'')?t.experience_years+' yrs experience':'Experienced tutor')+'</span><span class="chip">'+(t.levels||[]).slice(0,2).join(' / ')+'</span></div></a>'}).join('')}catch(e){grid.innerHTML='<div class="tutor-card"><p>Live tutor profiles are temporarily unavailable. <a href="#match-form" style="color:var(--brand);font-weight:800">Request a match →</a></p></div>'}}
+loadHomeTutors();
+
 function openWhatsApp(message){window.open('https://wa.me/6598816223?text='+encodeURIComponent(message),'_blank','noopener');}
 document.querySelectorAll('.program[data-program]').forEach(function(card){
   card.addEventListener('click',function(){
