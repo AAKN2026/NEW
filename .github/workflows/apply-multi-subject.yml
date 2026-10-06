@@ -1,6 +1,8 @@
 name: Apply Multi Subject Forms
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -20,19 +22,18 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
+          import re
           subjects='''<option value="">Select one or more subjects</option><option>Maths</option><option>English</option><option>Chinese</option><option>Higher Chinese</option><option>Malay</option><option>Tamil</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>General Science</option><option>Economics</option><option>Accounting</option><option>Business Studies</option><option>History</option><option>Geography</option><option>Computer Science / Coding</option><option>Robotics / STEM</option><option>Piano / Music</option><option>Art</option><option>Drama / Dance</option><option>Other</option>'''
           p=Path('index.html'); s=p.read_text(encoding='utf-8')
-          import re
           s=re.sub(r'<select name="subject" required>.*?</select>', '<select name="subject" multiple size="5" required>'+subjects+'</select>', s, count=1, flags=re.S)
           s=re.sub(r'<select name="Subject" required>.*?</select>', '<select name="Subject" multiple size="5" required>'+subjects+'</select>', s, count=1, flags=re.S)
-          s=s.replace('.lead-form input,.lead-form select {', '.lead-form input,.lead-form select {')
-          s=s.replace('async function submitParentRequest(event,form){event.preventDefault();const v=n=>form.elements[n]?.value||\'\';', 'async function submitParentRequest(event,form){event.preventDefault();const v=n=>form.elements[n]?.value||\'\';const selected=n=>Array.from(form.elements[n]?.selectedOptions||[]).map(o=>o.value).filter(Boolean);')
-          s=s.replace('subject:v(\'subject\')||v(\'Subject\'),', 'subject:(selected(\'subject\').length?selected(\'subject\'):selected(\'Subject\')),')
-          s=s.replace("openWhatsApp('Hi SmartMatch! I would like to find a tutor.\\\\n\\\\nParent: '+p.parent_name+'\\\\n\\\\nWhatsApp: '+p.whatsapp+'\\\\n\\\\nStudent level: '+p.student_level+'\\\\n\\\\nSubject: '+p.subject+'\\\\n\\\\nLesson: '+p.lesson_format+'\\\\n\\\\nBudget: '+p.budget+'\\\\n\\\\nRequirements: '+p.requirements);", "openWhatsApp('Hi SmartMatch! I would like to find a tutor.\\\\n\\\\nParent: '+p.parent_name+'\\\\n\\\\nWhatsApp: '+p.whatsapp+'\\\\n\\\\nStudent level: '+p.student_level+'\\\\n\\\\nSubjects: '+p.subject.join(', ')+'\\\\n\\\\nLesson: '+p.lesson_format+'\\\\n\\\\nBudget: '+p.budget+'\\\\n\\\\nRequirements: '+p.requirements);")
+          s=s.replace("async function submitParentRequest(event,form){event.preventDefault();const v=n=>form.elements[n]?.value||'';", "async function submitParentRequest(event,form){event.preventDefault();const v=n=>form.elements[n]?.value||'';const selected=n=>Array.from(form.elements[n]?.selectedOptions||[]).map(o=>o.value).filter(Boolean);")
+          s=s.replace("subject:v('subject')||v('Subject'),", "subject:(selected('subject').length?selected('subject'):selected('Subject')),")
+          s=s.replace("Subject: '+p.subject+", "Subjects: '+p.subject.join(', ')+")
           p.write_text(s,encoding='utf-8')
           p=Path('tutor.html'); s=p.read_text(encoding='utf-8')
           s=re.sub(r'<select name="subjects" required>.*?</select>', '<select name="subjects" multiple size="5" required>'+subjects+'</select>', s, count=1, flags=re.S)
-          s=s.replace('async function applyTutor(e,f){e.preventDefault();const v=n=>f.elements[n]?.value||\'\';const p={full_name:v(\'name\'),whatsapp:v(\'phone\'),subjects:[v(\'subjects\')].filter(Boolean),', 'async function applyTutor(e,f){e.preventDefault();const v=n=>f.elements[n]?.value||\'\';const selected=n=>Array.from(f.elements[n]?.selectedOptions||[]).map(o=>o.value).filter(Boolean);const p={full_name:v(\'name\'),whatsapp:v(\'phone\'),subjects:selected(\'subjects\'),')
+          s=s.replace("async function applyTutor(e,f){e.preventDefault();const v=n=>f.elements[n]?.value||'';const p={full_name:v('name'),whatsapp:v('phone'),subjects:[v('subjects')].filter(Boolean),", "async function applyTutor(e,f){e.preventDefault();const v=n=>f.elements[n]?.value||'';const selected=n=>Array.from(f.elements[n]?.selectedOptions||[]).map(o=>o.value).filter(Boolean);const p={full_name:v('name'),whatsapp:v('phone'),subjects:selected('subjects'),")
           p.write_text(s,encoding='utf-8')
       - name: Configure Pages
         uses: actions/configure-pages@v5
