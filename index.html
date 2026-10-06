@@ -264,7 +264,7 @@
         <form class="lead-form" onsubmit="submitParentRequest(event, this)">
           <div class="lead-form-grid">
             <select name="level" required><option value="">Student level</option><option>Primary / PSLE</option><option>Secondary / O-Level</option><option>Secondary / IP</option><option>JC / A-Level</option><option>IB / IGCSE</option><option>Adult / Other</option></select>
-            <select name="subject" required><option value="">Subject</option><option>Maths</option><option>Science / Physics / Chemistry</option><option>English</option><option>Chinese / Higher Chinese</option><option>Coding / STEM</option><option>Other</option></select>
+            <select name="subject" required><option value="">Select subject</option><option>Maths</option><option>English</option><option>Chinese</option><option>Higher Chinese</option><option>Malay</option><option>Tamil</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>General Science</option><option>Economics</option><option>Accounting</option><option>Business Studies</option><option>History</option><option>Geography</option><option>Computer Science / Coding</option><option>Robotics / STEM</option><option>Piano / Music</option><option>Art</option><option>Drama / Dance</option><option>Other</option></select>
             <input name="name" placeholder="Parent's name" required>
             <input name="phone" placeholder="WhatsApp number" required>
             <button class="btn btn-primary full" type="submit">Get matched with a tutor →</button>
@@ -386,7 +386,7 @@
           <div><label>Parent name</label><input name="Parent Name" required></div>
           <div><label>WhatsApp</label><input name="WhatsApp" required></div>
           <div><label>Student level</label><select name="Level" required><option value="">Select</option><option>Primary</option><option>Secondary</option><option>Secondary / IP</option><option>JC</option><option>IB / IGCSE</option><option>Adult</option></select></div>
-          <div><label>Subject</label><input name="Subject" placeholder="e.g. Maths" required></div>
+          <div><label>Subject</label><select name="Subject" required><option value="">Select subject</option><option>Maths</option><option>English</option><option>Chinese</option><option>Higher Chinese</option><option>Malay</option><option>Tamil</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>General Science</option><option>Economics</option><option>Accounting</option><option>Business Studies</option><option>History</option><option>Geography</option><option>Computer Science / Coding</option><option>Robotics / STEM</option><option>Piano / Music</option><option>Art</option><option>Drama / Dance</option><option>Other</option></select></div>
           <div><label>Preferred lesson</label><select name="Format"><option>Home tuition</option><option>Online</option><option>Either</option></select></div>
           <div><label>Budget / hour</label><input name="Budget" placeholder="e.g. S$40–60"></div>
           <div class="wide"><label>Anything else?</label><textarea name="Requirements" placeholder="School, target, availability, location, learning needs..."></textarea></div>
