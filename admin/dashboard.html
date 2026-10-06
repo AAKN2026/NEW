@@ -15,7 +15,7 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
   if(!digits){alert("No WhatsApp number is available.");return;}
   // Singapore numbers are commonly stored as 8 local digits (e.g. 86862098).
   // WhatsApp Click-to-Chat requires the full international number without +, spaces or dashes.
-  if(/^([689]\d{7}$/.test(digits)) digits="65"+digits;
+  if(/^([689]\d{7})$/.test(digits)) digits="65"+digits;
   else if(/^0[689]\d{7}$/.test(digits)) digits="65"+digits.slice(1);
   else if(/^65[689]\d{7}$/.test(digits)) {/* already Singapore international format */}
   else if(digits.length<8){alert("Invalid WhatsApp number: "+raw);return;}
