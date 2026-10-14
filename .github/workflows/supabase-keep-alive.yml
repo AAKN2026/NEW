@@ -24,6 +24,9 @@ on:
     - cron: "49 21 * * *"
     - cron: "1 23 * * *"
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/supabase-keep-alive.yml"
 
 permissions:
   contents: read
@@ -40,17 +43,10 @@ jobs:
       - name: Check Supabase REST API and database
         env:
           SUPABASE_URL: https://bdgbcyiplvoqvmufoztp.supabase.co
-          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          SUPABASE_PUBLISHABLE_KEY: sb_publishable_hP17wyiXJuUKvOyG0JiLjg_h1HqUZ33
         shell: bash
         run: |
           set -euo pipefail
-
-          if [[ -z "${SUPABASE_PUBLISHABLE_KEY:-}" ]]; then
-            echo "::error::Missing SUPABASE_PUBLISHABLE_KEY repository secret."
-            echo "Add it under Settings > Secrets and variables > Actions."
-            exit 1
-          fi
-
           attempt=1
           max_attempts=3
           while (( attempt <= max_attempts )); do
