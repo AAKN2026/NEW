@@ -1,7 +1,6 @@
 name: Supabase Keep Alive
 
 on:
-  # 20 lightweight Supabase REST health checks per day (UTC).
   schedule:
     - cron: "13 0 * * *"
     - cron: "25 1 * * *"
@@ -40,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Check Supabase REST API and database
+      - name: Check Supabase database using safe RPC
         env:
           SUPABASE_URL: https://bdgbcyiplvoqvmufoztp.supabase.co
           SUPABASE_PUBLISHABLE_KEY: sb_publishable_hP17wyiXJuUKvOyG0JiLjg_h1HqUZ33
@@ -50,30 +49,17 @@ jobs:
           attempt=1
           max_attempts=3
           while (( attempt <= max_attempts )); do
-            echo "Supabase health check attempt ${attempt}/${max_attempts}"
-            code="$(curl --silent --show-error --output /tmp/supabase-response.json --write-out "%{http_code}" \
-              --max-time 20 \
-              --get "${SUPABASE_URL}/rest/v1/tutors" \
-              --data-urlencode "select=id" \
-              --data-urlencode "limit=1" \
-              --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
-              --header "Accept: application/json" || true)"
-
-            if [[ "${code:-000}" =~ ^2[0-9][0-9]$ ]]; then
-              echo "Supabase REST/database check succeeded (HTTP ${code})."
+            echo "Supabase database check attempt $attempt/$max_attempts"
+            code=$(curl -sS -o /tmp/response.json -w "%{http_code}" --max-time 20 -X POST "$SUPABASE_URL/rest/v1/rpc/keep_alive" -H "apikey: $SUPABASE_PUBLISHABLE_KEY" -H "Content-Type: application/json" -H "Accept: application/json" -d '{}' || true)
+            if [[ "$code" =~ ^2[0-9][0-9]$ ]]; then
+              echo "Supabase database RPC check succeeded (HTTP $code)."
+              cat /tmp/response.json
               exit 0
             fi
-
-            echo "Supabase check returned HTTP ${code:-000}."
-            if [[ -f /tmp/supabase-response.json ]]; then
-              cat /tmp/supabase-response.json
-              echo
-            fi
-            if (( attempt < max_attempts )); then
-              sleep 10
-            fi
+            echo "Supabase check returned HTTP $code."
+            cat /tmp/response.json || true
+            if (( attempt < max_attempts )); then sleep 10; fi
             ((attempt+=1))
           done
-
-          echo "::error::Supabase health check failed after ${max_attempts} attempts."
+          echo "::error::Supabase database check failed after $max_attempts attempts."
           exit 1
